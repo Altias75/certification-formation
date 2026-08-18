@@ -1190,3 +1190,26 @@ nav .sub-menu li a {
 nav .sub-menu li a:hover {
   color: #4ade80 !important;
 }
+
+/* ============================================================================
+   BANDEAU CTA — lisibilite et respiration
+   Le h2 heritait de la couleur de texte foncee sur fond --cf-primary :
+   contraste insuffisant. Le bandeau collait aussi au pied de page.
+   ============================================================================ */
+.cf-cta-banner h2 {
+  color: #ffffff;
+}
+.cf-cta-banner p {
+  color: rgba(255, 255, 255, 0.92);
+}
+.cf-section-accent {
+  margin-bottom: 48px;
+}
+
+/* Renfort : Kadence impose sa couleur de titre avec une specificite
+   superieure a .cf-cta-banner h2. On cible plus precisement. */
+.cf-section-accent .cf-container h2,
+section.cf-cta-banner .cf-container h2,
+.cf-cta-banner h1, .cf-cta-banner h2, .cf-cta-banner h3 {
+  color: #ffffff !important;
+}
