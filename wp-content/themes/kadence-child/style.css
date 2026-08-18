@@ -1,0 +1,1173 @@
+/*!
+Theme Name:     Kadence Child — Certification Formation
+Theme URI:      https://certification-formation.fr
+Description:    Refonte certification-formation.fr inspirée tutosurexcel.com,
+                palette QualiManager. Child theme de Kadence 1.4.5+.
+                Toutes les surcharges visuelles passent par ce fichier.
+Author:         Cédric Le Meur
+Template:       kadence
+Version:        1.0.0
+License:        GNU General Public License v3.0
+Text Domain:    kadence-child
+*/
+
+/* ============================================================================
+   1. VARIABLES — palette QualiManager
+   ============================================================================ */
+:root {
+  --cf-primary:    #2ecc71;
+  --cf-primary-dk: #27ae60;
+  --cf-primary-lt: #e8f8ef;
+  --cf-dark:       #1a1a2e;
+  --cf-text:       #1a1a2e;
+  --cf-text-mute:  #6b7280;
+  --cf-bg:         #ffffff;
+  --cf-bg-alt:     #f8f9fa;
+  --cf-border:     #e5e7eb;
+  --cf-radius:     12px;
+  --cf-radius-lg:  20px;
+  --cf-shadow:     0 1px 3px rgba(0,0,0,.08);
+  --cf-shadow-md:  0 4px 12px rgba(0,0,0,.1);
+  --cf-shadow-lg:  0 12px 36px rgba(0,0,0,.12);
+  --cf-font:       -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Surcharge palette Kadence globale (variables CSS du thème parent) */
+.wp-site-blocks,
+body {
+  --global-palette1: var(--cf-primary);
+  --global-palette2: var(--cf-primary-dk);
+  --global-palette3: var(--cf-dark);
+  --global-palette4: var(--cf-text);
+  --global-palette5: var(--cf-text-mute);
+  --global-palette6: var(--cf-bg-alt);
+  --global-palette7: var(--cf-bg-alt);
+  --global-palette8: var(--cf-border);
+  --global-palette9: var(--cf-bg);
+}
+
+/* ============================================================================
+   2. BASE TYPOGRAPHIE — impact tutosurexcel
+   ============================================================================ */
+body {
+  font-family: var(--cf-font);
+  color: var(--cf-text);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: var(--cf-dark);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+h1 { font-size: clamp(36px, 5vw, 56px); }
+h2 { font-size: clamp(28px, 3.5vw, 40px); }
+h3 { font-size: clamp(20px, 2.2vw, 26px); }
+p  { line-height: 1.65; }
+strong { color: var(--cf-dark); font-weight: 700; }
+a { color: var(--cf-primary-dk); text-decoration: none; transition: .15s; }
+a:hover { color: var(--cf-primary); }
+
+/* ============================================================================
+   3. BOUTONS — primaire vert + secondaire fantôme
+   ============================================================================ */
+.cf-btn,
+.wp-block-button__link.cf-btn,
+a.cf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: .2s;
+  cursor: pointer;
+  border: 2px solid transparent;
+  line-height: 1.2;
+  min-height: 48px; /* tactile */
+}
+.cf-btn-primary,
+.wp-block-button__link.cf-btn-primary {
+  background: var(--cf-primary);
+  color: #fff !important;
+  border-color: var(--cf-primary);
+}
+.cf-btn-primary:hover {
+  background: var(--cf-primary-dk);
+  border-color: var(--cf-primary-dk);
+  transform: translateY(-1px);
+  box-shadow: var(--cf-shadow-md);
+}
+.cf-btn-ghost,
+.wp-block-button__link.cf-btn-ghost {
+  background: transparent;
+  color: var(--cf-dark) !important;
+  border-color: var(--cf-border);
+}
+.cf-btn-ghost:hover {
+  background: var(--cf-bg-alt);
+  border-color: var(--cf-dark);
+}
+.cf-btn-white {
+  background: #fff;
+  color: var(--cf-primary-dk) !important;
+  border-color: #fff;
+}
+.cf-btn-white:hover {
+  background: var(--cf-bg-alt);
+  transform: translateY(-1px);
+}
+.cf-btn-lg {
+  padding: 18px 36px;
+  font-size: 18px;
+  min-height: 56px;
+}
+
+/* ============================================================================
+   4. SECTIONS — alternance fond + padding généreux
+   ============================================================================ */
+.cf-section {
+  padding: clamp(48px, 8vw, 96px) 0;
+}
+.cf-section-light { background: var(--cf-bg); }
+.cf-section-alt   { background: var(--cf-bg-alt); }
+.cf-section-dark  { background: var(--cf-dark); color: #fff; }
+.cf-section-dark h1,
+.cf-section-dark h2,
+.cf-section-dark h3 { color: #fff; }
+.cf-section-accent {
+  background: var(--cf-primary);
+  color: #fff;
+}
+.cf-section-accent h1,
+.cf-section-accent h2,
+.cf-section-accent h3 { color: #fff; }
+
+.cf-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.cf-narrow { max-width: 800px; margin: 0 auto; }
+.cf-text-center { text-align: center; }
+
+/* ============================================================================
+   5. HEADER STICKY — logo + menu + CTA toujours visible
+   ============================================================================ */
+.site-header {
+  background: var(--cf-bg);
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Masquer le titre du site affiché à côté du logo dans le header Kadence.
+   On garde uniquement le logo image, pas le texte « Certification Formation ». */
+.site-title,
+.header-site-title,
+.site-branding .site-title {
+  display: none !important;
+}
+.site-header-row-container .header-button.cf-header-cta a,
+.header-button.cf-header-cta a {
+  background: var(--cf-primary) !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+}
+.site-main-header-wrap .menu > li > a {
+  font-weight: 500;
+  color: var(--cf-text);
+}
+.site-main-header-wrap .menu > li > a:hover {
+  color: var(--cf-primary-dk);
+}
+
+/* ============================================================================
+   6. HERO HOMEPAGE
+   ============================================================================ */
+.cf-hero {
+  margin-top: 0 !important;
+  padding: 64px 0 clamp(48px, 8vw, 96px);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, var(--cf-primary-lt) 0%, transparent 60%),
+    var(--cf-bg);
+  text-align: center;
+}
+.cf-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: var(--cf-primary-lt);
+  color: var(--cf-primary-dk);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+}
+.cf-hero h1 {
+  margin-bottom: 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cf-hero h1 em {
+  color: var(--cf-primary);
+  font-style: normal;
+}
+.cf-hero-subtitle {
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--cf-text-mute);
+  max-width: 680px;
+  margin: 0 auto 36px;
+  line-height: 1.55;
+}
+.cf-hero-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.cf-hero-trust {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--cf-text-mute);
+  margin-top: 8px;
+}
+
+/* ============================================================================
+   7. STATS / PREUVES SOCIALES — 4 cards chiffres XL
+   ============================================================================ */
+.cf-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 36px;
+}
+.cf-stat-card {
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius-lg);
+  padding: 28px 20px;
+  text-align: center;
+  transition: .2s;
+}
+.cf-stat-card:hover {
+  border-color: var(--cf-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--cf-shadow-md);
+}
+.cf-stat-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+}
+.cf-stat-value {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800;
+  color: var(--cf-primary);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.cf-stat-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cf-dark);
+  line-height: 1.4;
+}
+.cf-stat-sub {
+  font-size: 12px;
+  color: var(--cf-text-mute);
+  margin-top: 4px;
+}
+
+/* ============================================================================
+   8. PAIN POINTS — "Vous reconnaissez-vous ?"
+   ============================================================================ */
+.cf-pain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.cf-pain-card {
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-left: 4px solid var(--cf-primary);
+  border-radius: var(--cf-radius);
+  padding: 24px 28px;
+}
+.cf-pain-card .cf-pain-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.cf-pain-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.cf-pain-card p {
+  color: var(--cf-text-mute);
+  font-size: 15px;
+  margin: 0;
+}
+
+/* ============================================================================
+   9. OFFRES — 2 cards prix avec bénéfices
+   ============================================================================ */
+/* Spécificité accrue avec .entry-content pour battre tout override Kadence
+   éventuel sur les blocs enfants de l'éditeur. */
+.cf-offers-grid,
+.entry-content .cf-offers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 48px;
+}
+.cf-offer-card {
+  background: var(--cf-bg);
+  border: 2px solid var(--cf-border);
+  border-radius: var(--cf-radius-lg);
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  transition: .25s;
+  position: relative;
+}
+.cf-offer-card.cf-featured {
+  border-color: var(--cf-primary);
+  box-shadow: var(--cf-shadow-lg);
+}
+.cf-offer-card.cf-featured::before {
+  content: 'Le plus complet';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--cf-primary);
+  color: #fff;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cf-offer-card:hover { transform: translateY(-3px); box-shadow: var(--cf-shadow-md); }
+.cf-offer-card.cf-featured:hover { box-shadow: var(--cf-shadow-lg); }
+.cf-offer-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.cf-offer-tagline {
+  color: var(--cf-text-mute);
+  font-size: 15px;
+  margin-bottom: 24px;
+  min-height: 44px;
+}
+.cf-offer-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.cf-offer-price .cf-price-value {
+  font-size: clamp(40px, 5vw, 56px);
+  font-weight: 800;
+  color: var(--cf-dark);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.cf-offer-price .cf-price-currency {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--cf-text-mute);
+}
+.cf-offer-duration {
+  font-size: 14px;
+  color: var(--cf-text-mute);
+  margin-bottom: 24px;
+}
+.cf-offer-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  flex: 1;
+}
+.cf-offer-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 15px;
+}
+.cf-offer-features li::before {
+  content: '✓';
+  color: var(--cf-primary);
+  font-weight: 800;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.cf-offer-card .cf-btn { width: 100%; justify-content: center; }
+
+/* ============================================================================
+   10. PROCESS — 4 étapes numérotées
+   ============================================================================ */
+.cf-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+  position: relative;
+}
+.cf-process-step {
+  text-align: center;
+  position: relative;
+}
+.cf-process-num {
+  width: 64px;
+  height: 64px;
+  background: var(--cf-primary);
+  color: #fff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 16px rgba(46,204,113,.3);
+}
+.cf-process-step h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.cf-process-step p {
+  font-size: 14px;
+  color: var(--cf-text-mute);
+  margin: 0;
+}
+
+/* ============================================================================
+   11. BIO — photo + texte
+   ============================================================================ */
+.cf-bio-block {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 48px;
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius-lg);
+  padding: 36px;
+}
+.cf-bio-photo img {
+  width: 100%;
+  border-radius: var(--cf-radius);
+  display: block;
+}
+.cf-bio-content h2 { margin-bottom: 16px; }
+.cf-bio-content p { color: var(--cf-text-mute); margin-bottom: 12px; }
+.cf-bio-credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.cf-bio-credentials span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--cf-primary-lt);
+  color: var(--cf-primary-dk);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ============================================================================
+   12. FAQ — accordéon natif <details>
+   ============================================================================ */
+.cf-faq {
+  max-width: 800px;
+  margin: 48px auto 0;
+}
+.cf-faq details {
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: .15s;
+}
+.cf-faq details[open] {
+  border-color: var(--cf-primary);
+  box-shadow: var(--cf-shadow);
+}
+.cf-faq summary {
+  padding: 20px 56px 20px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  color: var(--cf-dark);
+}
+.cf-faq summary::-webkit-details-marker { display: none; }
+.cf-faq summary::after {
+  content: '+';
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--cf-primary);
+  transition: transform .2s;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cf-faq details[open] summary::after {
+  content: '−';
+}
+.cf-faq summary:hover { color: var(--cf-primary-dk); }
+.cf-faq .cf-faq-answer {
+  padding: 0 24px 20px;
+  color: var(--cf-text-mute);
+  line-height: 1.65;
+}
+
+/* ============================================================================
+   13. CTA FINAL — banner vert plein
+   ============================================================================ */
+.cf-cta-banner {
+  text-align: center;
+}
+.cf-cta-banner h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  margin-bottom: 12px;
+}
+.cf-cta-banner p {
+  font-size: clamp(16px, 2vw, 19px);
+  max-width: 600px;
+  margin: 0 auto 32px;
+  opacity: 0.95;
+}
+
+/* ============================================================================
+   14. FOOTER — fond sombre
+   ============================================================================ */
+.site-footer {
+  background: var(--cf-dark) !important;
+  color: #fff;
+}
+.site-footer a {
+  color: rgba(255,255,255,.85);
+}
+.site-footer a:hover {
+  color: var(--cf-primary);
+}
+.site-footer .footer-widget-area-inner,
+.site-footer-row-container {
+  color: rgba(255,255,255,.85);
+}
+
+/* ============================================================================
+   15. RESPONSIVE — breakpoints 1200px et 768px
+   ============================================================================ */
+@media (max-width: 1200px) {
+  .cf-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .cf-process-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .cf-section { padding: 48px 0; }
+  .cf-hero { padding: 40px 0 40px; }
+
+  /* Hero CTA en colonne sur mobile */
+  .cf-hero-cta { flex-direction: column; align-items: stretch; padding: 0 16px; }
+  .cf-hero-cta .cf-btn { width: 100%; justify-content: center; }
+
+  /* Toutes les grilles → 1 colonne */
+  .cf-stats-grid,
+  .cf-pain-grid,
+  .cf-offers-grid,
+  .cf-process-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Bio empilée */
+  .cf-bio-block {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px;
+    text-align: center;
+  }
+  .cf-bio-photo {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  .cf-bio-credentials { justify-content: center; }
+
+  /* Offer card moins de padding */
+  .cf-offer-card { padding: 28px 24px; }
+
+  /* FAQ summary tactile */
+  .cf-faq summary { padding: 18px 50px 18px 20px; font-size: 15px; }
+  .cf-faq summary::after { right: 20px; }
+
+  /* Buttons full-width */
+  .cf-btn,
+  .wp-block-button__link.cf-btn { width: 100%; justify-content: center; }
+}
+
+/* ============================================================================
+   16. UTILITAIRES
+   ============================================================================ */
+.cf-mt-0  { margin-top: 0 !important; }
+.cf-mt-2  { margin-top: 16px; }
+.cf-mt-4  { margin-top: 32px; }
+.cf-mt-6  { margin-top: 48px; }
+.cf-mb-0  { margin-bottom: 0 !important; }
+.cf-mb-4  { margin-bottom: 32px; }
+.cf-text-mute  { color: var(--cf-text-mute); }
+.cf-text-white { color: #fff; }
+.cf-bold       { font-weight: 700; }
+
+/* Animation fade-in subtile (a11y prefers-reduced-motion respecté) */
+@media (prefers-reduced-motion: no-preference) {
+  .cf-fade-in {
+    animation: cfFadeIn .6s ease-out both;
+  }
+  @keyframes cfFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+/* Focus visible accessibility */
+.cf-btn:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--cf-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   18. SURCHARGE WRAPPER KADENCE — chemin complet header → hero
+   ----------------------------------------------------------------------------
+   La chaîne entre </header> et <section class="cf-hero"> compte 6 wrappers
+   imbriqués injectés par Kadence :
+     main#inner-wrap > #primary > .content-container > #main.site-main
+       > .content-wrap > article > .entry-content-wrap > .entry-content.single-content
+   Le COUPABLE de l'espace visible est `.single-content` qui définit
+   `margin: var(--global-md-spacing) 0 0` (variable Kadence ~24-48px) dans
+   content.min.css du parent. Les autres wrappers sont neutres ou déjà à 0.
+   ============================================================================ */
+
+/* Bloc 1 : wrappers globaux (par sécurité, idempotent) */
+main#inner-wrap,
+.wrap.kt-clear {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Bloc 2 : neutralisation du margin-top de .single-content QUAND
+   son premier enfant est un .cf-hero. Permet de garder l'espace sur les
+   pages "classiques" (articles, pages sans hero plein-largeur). */
+.single-content:has(> .cf-hero:first-child),
+.entry-content:has(> .cf-hero:first-child) {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Bloc 3 : fallback pour navigateurs sans :has() (rare en 2025) +
+   ceintures et bretelles spécifiques à la homepage. */
+body.home .single-content,
+body.home .entry-content,
+body.home .entry-content-wrap,
+body.home .content-wrap,
+body.home .site-main {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Bloc 4 : MASQUE le hero auto Kadence (.entry-hero / page-title) sur les
+   pages refondues qui ont leur propre .cf-hero. Évite le doublon de H1.
+   Le :has() détecte automatiquement les pages concernées, pas besoin de
+   désactiver le titre page par page dans le Customizer. */
+body:has(.cf-hero) .entry-hero,
+body:has(.cf-hero) .entry-hero.page-hero-section,
+body:has(.cf-hero) .page-hero-section,
+body:has(.cf-hero) header.entry-header > h1.entry-title {
+  display: none !important;
+}
+
+/* ============================================================================
+   19. COMPOSANTS — pages secondaires (audit blanc, guides, à propos, contact)
+   ============================================================================ */
+
+/* === TIMELINE (À propos) === */
+.cf-timeline {
+  position: relative;
+  margin: 48px auto 0;
+  max-width: 720px;
+  padding-left: 40px;
+}
+.cf-timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--cf-primary) 0%, var(--cf-border) 100%);
+}
+.cf-timeline-item {
+  position: relative;
+  padding-bottom: 32px;
+}
+.cf-timeline-item:last-child { padding-bottom: 0; }
+.cf-timeline-dot {
+  position: absolute;
+  left: -34px;
+  top: 4px;
+  width: 26px;
+  height: 26px;
+  background: var(--cf-primary);
+  border-radius: 50%;
+  border: 4px solid var(--cf-bg);
+  box-shadow: 0 0 0 2px var(--cf-primary);
+}
+.cf-timeline-date {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cf-primary-dk);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.cf-timeline-item h3 { font-size: 18px; margin-bottom: 6px; }
+.cf-timeline-item p { color: var(--cf-text-mute); margin: 0; }
+
+/* === CHECKLIST (Préparer audit) === */
+.cf-checklist {
+  max-width: 800px;
+  margin: 48px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cf-checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 22px;
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius);
+  transition: .15s;
+}
+.cf-checklist-item:hover { border-color: var(--cf-primary); box-shadow: var(--cf-shadow); }
+.cf-checklist-check {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--cf-primary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--cf-primary);
+  background: var(--cf-primary-lt);
+}
+.cf-checklist-content h3 { font-size: 16px; margin-bottom: 4px; }
+.cf-checklist-content p { color: var(--cf-text-mute); font-size: 14px; margin: 0; }
+
+/* === ERREURS À ÉVITER (rouge) === */
+.cf-error-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.cf-error-card {
+  background: var(--cf-bg);
+  border: 1px solid #fecaca;
+  border-left: 4px solid var(--cf-red, #dc2626);
+  border-radius: var(--cf-radius);
+  padding: 20px 24px;
+}
+.cf-error-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.cf-error-card h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: #991b1b;
+}
+.cf-error-card p {
+  color: var(--cf-text-mute);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* === CALLOUTS (encarts "bon à savoir") === */
+.cf-callout {
+  display: flex;
+  gap: 16px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  background: var(--cf-bg-alt);
+  border-left: 4px solid var(--cf-primary);
+  border-radius: var(--cf-radius);
+}
+.cf-callout-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.cf-callout-body { flex: 1; }
+.cf-callout-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--cf-dark);
+}
+.cf-callout-body p:last-child { margin-bottom: 0; }
+.cf-callout-info { border-left-color: #3b82f6; background: #eff6ff; }
+.cf-callout-info .cf-callout-title { color: #1e3a8a; }
+.cf-callout-warning { border-left-color: #f59e0b; background: #fffbeb; }
+.cf-callout-warning .cf-callout-title { color: #92400e; }
+
+/* === SOMMAIRE ANCRÉ (TOC pour pages guides) === */
+.cf-toc {
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius);
+  padding: 24px 28px;
+  margin: 32px 0;
+}
+.cf-toc-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cf-text-mute);
+  margin-bottom: 12px;
+}
+.cf-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: toc;
+}
+.cf-toc-list li {
+  counter-increment: toc;
+  padding: 6px 0;
+  border-top: 1px solid var(--cf-border);
+}
+.cf-toc-list li:first-child { border-top: none; }
+.cf-toc-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: var(--cf-text);
+  font-weight: 500;
+}
+.cf-toc-list a::before {
+  content: counter(toc, decimal-leading-zero);
+  color: var(--cf-primary);
+  font-weight: 700;
+  font-size: 13px;
+  min-width: 32px;
+}
+.cf-toc-list a:hover { color: var(--cf-primary-dk); }
+
+/* === INDICATEURS (Indicateurs Qualiopi) === */
+.cf-indicator-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 32px 0 16px;
+}
+.cf-pill {
+  padding: 8px 18px;
+  border: 1.5px solid var(--cf-border);
+  border-radius: 100px;
+  background: var(--cf-bg);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cf-text);
+  cursor: pointer;
+  font-family: inherit;
+  transition: .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.cf-pill:hover { border-color: var(--cf-primary); color: var(--cf-primary-dk); }
+.cf-pill.active {
+  background: var(--cf-primary);
+  border-color: var(--cf-primary);
+  color: #fff;
+}
+.cf-indicator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+.cf-indicator-card {
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius);
+  padding: 18px 20px;
+  transition: .15s;
+}
+.cf-indicator-card:hover { border-color: var(--cf-primary); box-shadow: var(--cf-shadow); }
+.cf-indicator-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--cf-primary);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.cf-indicator-card h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.cf-indicator-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 4px;
+}
+.cf-indicator-badge.applicable    { background: #d1fae5; color: #065f46; }
+.cf-indicator-badge.conditionnel  { background: #fef3c7; color: #92400e; }
+.cf-indicator-badge.non-applicable{ background: #f3f4f6; color: #6b7280; }
+.cf-indicator-card.hidden { display: none; }
+
+/* === DOCUMENTS (catégorie + liste) === */
+.cf-doc-category {
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+}
+.cf-doc-category-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--cf-primary-lt);
+}
+.cf-doc-category-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  background: var(--cf-primary-lt);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cf-doc-category-head h3 {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.cf-doc-category-head p {
+  font-size: 13px;
+  color: var(--cf-text-mute);
+  margin: 0;
+}
+.cf-doc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 24px;
+}
+.cf-doc-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--cf-text);
+}
+.cf-doc-list li::before {
+  content: '📄';
+  flex-shrink: 0;
+  font-size: 13px;
+}
+
+/* === VALEURS (À propos) === */
+.cf-values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.cf-value-card {
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius-lg);
+  padding: 28px 24px;
+  text-align: center;
+}
+.cf-value-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--cf-primary-lt);
+  color: var(--cf-primary-dk);
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+.cf-value-card h3 { font-size: 18px; margin-bottom: 8px; }
+.cf-value-card p { color: var(--cf-text-mute); font-size: 14px; margin: 0; }
+
+/* === FORMULAIRE CENTRÉ (Contact) === */
+.cf-form-centered {
+  max-width: 560px;
+  margin: 48px auto 0;
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius-lg);
+  padding: 36px 32px;
+  box-shadow: var(--cf-shadow-md);
+}
+.cf-form-centered .form-row { margin-bottom: 16px; }
+.cf-form-centered label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--cf-dark);
+}
+.cf-form-centered input,
+.cf-form-centered select,
+.cf-form-centered textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--cf-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--cf-text);
+  background: var(--cf-bg);
+  transition: .15s;
+}
+.cf-form-centered input:focus,
+.cf-form-centered select:focus,
+.cf-form-centered textarea:focus {
+  outline: none;
+  border-color: var(--cf-primary);
+  box-shadow: 0 0 0 3px var(--cf-primary-lt);
+}
+.cf-form-centered textarea { resize: vertical; min-height: 120px; }
+
+/* === REASONS (Contact) === */
+.cf-reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.cf-reason-card {
+  text-align: center;
+  padding: 24px 20px;
+}
+.cf-reason-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+}
+.cf-reason-card h3 { font-size: 16px; margin-bottom: 6px; }
+.cf-reason-card p { font-size: 14px; color: var(--cf-text-mute); margin: 0; }
+
+/* === RESPONSIVE — nouveaux composants ============================== */
+@media (max-width: 768px) {
+  .cf-error-grid,
+  .cf-values-grid,
+  .cf-reasons-grid,
+  .cf-doc-list {
+    grid-template-columns: 1fr;
+  }
+  .cf-timeline { padding-left: 32px; }
+  .cf-timeline-dot { left: -28px; width: 22px; height: 22px; }
+  .cf-checklist-item { padding: 14px 16px; gap: 12px; }
+  .cf-doc-category { padding: 22px 20px; }
+  .cf-doc-category-head { flex-direction: column; align-items: flex-start; }
+  .cf-form-centered { padding: 24px 20px; }
+  .cf-indicator-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================================
+   17. JUSTIFICATION TEXTE — uniquement les paragraphes longs
+   ----------------------------------------------------------------------------
+   text-align: justify sur les éléments de texte courant.
+   hyphens: auto + lang="fr" (sur <html>) permet de couper les mots longs
+   pour éviter les "rivières" (espaces inter-mots disgracieux).
+   ----------------------------------------------------------------------------
+   N'EST PAS justifié (volontaire) :
+   - h1, h2, h3 : titres (lisibilité)
+   - .cf-offer-features li : items de liste (cases ✓)
+   - .cf-hero-subtitle : centré sous h1, garde alignement
+   - .cf-stat-label, .cf-bio-credentials : labels courts
+   - prix, boutons, badges : éléments compacts
+   ============================================================================ */
+.cf-pain-card p,
+.cf-bio-content p,
+.cf-faq-answer p,
+.cf-offer-tagline,
+.cf-process-step p {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* Garde-fou mobile : sur écran étroit, la justification crée trop de "rivières"
+   sur des paragraphes courts. On revient à un alignement gauche standard. */
+@media (max-width: 480px) {
+  .cf-pain-card p,
+  .cf-bio-content p,
+  .cf-faq-answer p,
+  .cf-offer-tagline,
+  .cf-process-step p {
+    text-align: left;
+  }
+}

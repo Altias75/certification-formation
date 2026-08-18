@@ -1,0 +1,125 @@
+<section class="cf-section cf-hero">
+  <div class="cf-container">
+    <span class="cf-hero-eyebrow">🎯 Auto-évaluation gratuite</span>
+    <h1>Évaluez votre <em>maturité Qualiopi</em> en 3 minutes</h1>
+    <p class="cf-hero-subtitle">8 questions ciblées sur vos pratiques actuelles : programme, évaluation des acquis, satisfaction, réclamations, amélioration continue. Score immédiat, recommandations personnalisées, aucune inscription.</p>
+    <div class="cf-hero-cta">
+      <a href="#outil" class="cf-btn cf-btn-primary cf-btn-lg">↓ Démarrer le diagnostic</a>
+    </div>
+  </div>
+</section>
+
+<section class="cf-section cf-section-alt">
+  <div class="cf-container">
+    <div class="cf-text-center cf-mb-4">
+      <h2>L'essentiel en 4 chiffres</h2>
+    </div>
+    <div class="cf-stats-grid">
+      <div class="cf-stat-card">
+        <span class="cf-stat-icon">❓</span>
+        <div class="cf-stat-value">8</div>
+        <div class="cf-stat-label">Questions ciblées</div>
+        <div class="cf-stat-sub">Sur vos pratiques réelles</div>
+      </div>
+      <div class="cf-stat-card">
+        <span class="cf-stat-icon">⏱️</span>
+        <div class="cf-stat-value">3</div>
+        <div class="cf-stat-label">Minutes chrono</div>
+        <div class="cf-stat-sub">Pas plus, promis</div>
+      </div>
+      <div class="cf-stat-card">
+        <span class="cf-stat-icon">📊</span>
+        <div class="cf-stat-value">100%</div>
+        <div class="cf-stat-label">Score immédiat</div>
+        <div class="cf-stat-sub">Aucune inscription</div>
+      </div>
+      <div class="cf-stat-card">
+        <span class="cf-stat-icon">🆓</span>
+        <div class="cf-stat-value">0€</div>
+        <div class="cf-stat-label">Toujours gratuit</div>
+        <div class="cf-stat-sub">Sans engagement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cf-section cf-section-light" id="outil">
+  <div class="cf-container">
+    <iframe
+      id="diag-iframe"
+      src="https://certification-formation.fr/outils/diagnostic-qualiopi-site.html?v=3"
+      width="100%"
+      height="800"
+      frameborder="0"
+      scrolling="no"
+      loading="eager"
+      style="border:none;display:block;margin-top:2rem;width:100%;transition:height .25s ease;">
+    </iframe>
+    <script>
+    (function () {
+      var iframe = document.getElementById('diag-iframe');
+      if (!iframe) return;
+      var MIN_HEIGHT = 800;   // hauteur plancher pour éviter les sauts visuels
+      var PADDING   = 40;     // air en bas pour ne pas couper le contenu
+
+      window.addEventListener('message', function (e) {
+        // Sécurité : on n'accepte les messages que de notre propre domaine
+        if (e.origin !== 'https://certification-formation.fr') return;
+        if (!e.data || e.data.type !== 'iframe-height') return;
+
+        var raw = parseInt(e.data.height, 10);
+        if (!raw || isNaN(raw)) return;
+        var newH = Math.max(MIN_HEIGHT, raw + PADDING);
+        if (Math.abs(parseInt(iframe.style.height, 10) - newH) < 4) return; // évite jitter <4px
+        iframe.style.height = newH + 'px';
+      });
+    })();
+    </script>
+  </div>
+</section>
+
+<section class="cf-section cf-section-alt">
+  <div class="cf-container">
+    <div class="cf-text-center cf-mb-4">
+      <h2>Que faire de votre score ?</h2>
+      <p class="cf-text-mute">3 cas de figure, 3 orientations claires.</p>
+    </div>
+    <div class="cf-pain-grid">
+      <div class="cf-pain-card" style="border-left-color:#dc2626">
+        <div class="cf-pain-icon">🔴</div>
+        <h3>Score faible (moins de 40%)</h3>
+        <p>Beaucoup de bases à poser. L'<a href="/accompagnement-qualiopi/" style="color:var(--cf-primary-dk);font-weight:600">accompagnement complet (1 490€)</a> est probablement le bon point de départ : diagnostic personnalisé, modèles de documents, audit blanc inclus.</p>
+      </div>
+      <div class="cf-pain-card" style="border-left-color:#f59e0b">
+        <div class="cf-pain-icon">🟠</div>
+        <h3>Score moyen (40 à 70%)</h3>
+        <p>Les fondations existent mais il manque de la structure. Soit l'<a href="/accompagnement-qualiopi/" style="color:var(--cf-primary-dk);font-weight:600">accompagnement complet</a> pour combler proprement, soit la <a href="/contact/" style="color:var(--cf-primary-dk);font-weight:600">réservation d'un appel</a> pour orienter selon votre échéance.</p>
+      </div>
+      <div class="cf-pain-card" style="border-left-color:var(--cf-primary)">
+        <div class="cf-pain-icon">🟢</div>
+        <h3>Score élevé (70% et plus)</h3>
+        <p>Votre dossier est sur les rails. Un <a href="/audit-blanc-qualiopi/" style="color:var(--cf-primary-dk);font-weight:600">audit blanc à 490€</a> suffit probablement à valider votre préparation avant l'audit officiel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cf-section cf-section-light">
+  <div class="cf-container cf-narrow">
+    <div class="cf-callout cf-callout-info">
+      <div class="cf-callout-icon">💡</div>
+      <div class="cf-callout-body">
+        <div class="cf-callout-title">Important à savoir</div>
+        <p>Ce diagnostic est un outil indicatif. Il vous donne une photographie rapide de votre maturité Qualiopi, mais ne remplace pas une analyse fine du référentiel des 32 indicateurs. Pour un avis approfondi, réservez un appel gratuit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cf-section cf-section-accent cf-cta-banner">
+  <div class="cf-container">
+    <h2>Besoin d'aide pour interpréter vos résultats ?</h2>
+    <p>30 minutes d'appel pour discuter de votre score et identifier la suite. Gratuit, sans engagement.</p>
+    <a href="/contact/" class="cf-btn cf-btn-white cf-btn-lg">📞 Réserver mon appel gratuit</a>
+  </div>
+</section>

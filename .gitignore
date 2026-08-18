@@ -1,0 +1,27 @@
+# WordPress
+wp-config.php
+.htaccess
+*.log
+
+# Uploads et cache
+wp-content/uploads/*
+wp-content/cache/*
+wp-content/backup-*
+
+# Node/Build
+node_modules/
+package-lock.json
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Dev
+.env
+.env.local

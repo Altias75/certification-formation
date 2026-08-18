@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pré-diagnostic Qualiopi : évaluez votre niveau de préparation</title>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --forest: #1a1a2e;    /* dark navy QualiManager (ex bleu #1a3557) */
+  --emerald: #2ecc71;   /* vert principal (ex bleu #1e73be) */
+  --mint: #27ae60;      /* vert hover foncé (ex bleu #2b8fd4) */
+  --mint-lt: #e8f8ef;   /* vert très clair (ex bleu #eaf4fb) */
+  --gold: #c98a0a;
+  --gold-lt: #fdf6e3;
+  --cream: #ffffff;
+  --warm-white: #ffffff;
+  --text: #1a1a2e;      /* sombre QualiManager pour cohérence titres */
+  --muted: #6b7280;
+  --border: #e2e8f0;
+  --danger: #c0392b;
+  --danger-lt: #fdf0ee;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ══ RESET anti-WordPress ═══════════════════════════════════ */
+.quiz-wrap, .quiz-wrap * {
+  text-align: left;
+  hyphens: none;
+  -webkit-hyphens: none;
+}
+.score-hero, .score-hero * { text-align: center; }
+
+/* ══ QUIZ WRAPPER ══════════════════════════════════════════ */
+.quiz-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+/* ══ PROGRESS ══════════════════════════════════════════════ */
+.progress-section {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--warm-white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.progress-fraction {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--emerald);
+}
+
+.progress-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.p-dot {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--border);
+  transition: background 0.4s ease, transform 0.2s ease;
+}
+
+.p-dot.done { background: var(--mint); }
+.p-dot.current { background: var(--emerald); transform: scaleY(1.4); }
+
+/* ══ QUESTION CARD ══════════════════════════════════════════ */
+.q-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header {
+  background: linear-gradient(135deg, var(--forest) 0%, #1a3d2e 100%);
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.q-num-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(61,184,138,0.2);
+  border: 1.5px solid var(--mint);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.q-num-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--mint);
+}
+
+.q-meta {
+  flex: 1;
+}
+
+.q-indicateur {
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 2px;
+}
+
+.q-domaine {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+
+.q-body { padding: 1.75rem; }
+
+.q-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.q-options { display: flex; flex-direction: column; gap: 9px; }
+
+.q-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 1rem 1.1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  background: var(--cream);
+  user-select: none;
+  position: relative;
+}
+
+.q-opt:hover {
+  border-color: var(--emerald);
+  background: var(--mint-lt);
+  transform: translateX(3px);
+}
+
+.q-opt.selected {
+  border-color: var(--emerald);
+  background: var(--mint-lt);
+  transform: translateX(3px);
+  box-shadow: -4px 0 0 var(--emerald);
+}
+
+.q-opt-radio {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+  background: white;
+}
+
+.q-opt.selected .q-opt-radio {
+  border-color: var(--emerald);
+  background: var(--emerald);
+}
+
+.q-opt.selected .q-opt-radio::after {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: white;
+}
+
+.q-opt-score {
+  position: absolute;
+  right: 14px; top: 50%;
+  transform: translateY(-50%);
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.q-opt.selected .q-opt-score { opacity: 1; background: var(--emerald); color: white; }
+
+.q-opt-label {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text);
+  padding-right: 2rem;
+}
+
+.q-opt.selected .q-opt-label { color: var(--emerald); font-weight: 500; }
+
+/* ══ NAV ════════════════════════════════════════════════════ */
+.nav-row {
+  display: flex !important;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.btn-back {
+  width: 48px; height: 48px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--warm-white);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--forest);
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.btn-back:hover:not(:disabled) { border-color: var(--text); color: var(--text); }
+.btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.btn-next {
+  flex: 1;
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 12px;
+  background: var(--forest);
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btn-next::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--emerald);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.btn-next:not(:disabled):hover::before { transform: translateX(0); }
+.btn-next span { position: relative; z-index: 1; }
+.btn-next:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+.btn-next:disabled::before { display: none; }
+
+/* ══ RÉSULTATS ══════════════════════════════════════════════ */
+#results { display: none; animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1); }
+#results.visible { display: block; }
+
+/* Score hero */
+.score-hero {
+  background: var(--forest);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.score-hero::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 40px solid rgba(61,184,138,0.08);
+}
+
+.score-hero-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 1rem;
+}
+
+.score-ring {
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  border: 8px solid rgba(255,255,255,0.08);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  margin: 0 auto 1.5rem;
+  position: relative;
+}
+
+.score-num {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: var(--mint);
+  line-height: 1;
+}
+
+.score-denom {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.55);
+  margin-top: 2px;
+}
+
+.niveau-chips {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.niveau-chip {
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.35);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.55);
+  transition: all 0.3s;
+}
+
+.niveau-chip.active {
+  background: var(--mint);
+  border-color: var(--mint);
+  color: white;
+}
+
+.score-titre {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+
+.score-desc {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.65;
+  max-width: 420px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.score-prudence {
+  margin-top: 1.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  font-style: italic;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding-top: 1rem;
+  max-width: 420px;
+}
+
+/* Indicateurs détail */
+.indicateurs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 1.25rem;
+}
+
+.ind-card {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.ind-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.ind-card.score-3::before { background: var(--mint); }
+.ind-card.score-2::before { background: var(--gold); }
+.ind-card.score-1::before { background: #e8a020; }
+.ind-card.score-0::before { background: var(--danger); }
+
+.ind-nom {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.ind-bar-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.ind-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+.score-3 .ind-bar-fill { background: var(--mint); width: 100%; }
+.score-2 .ind-bar-fill { background: var(--gold); width: 67%; }
+.score-1 .ind-bar-fill { background: #e8a020; width: 33%; }
+.score-0 .ind-bar-fill { background: var(--danger); width: 8%; }
+
+.ind-score-label {
+  font-size: 0.62rem;
+  color: var(--muted);
+}
+
+.score-3 .ind-score-label { color: var(--mint); }
+.score-2 .ind-score-label { color: var(--gold); }
+.score-0 .ind-score-label { color: var(--danger); }
+
+/* Actions */
+.actions-block {
+  background: var(--warm-white);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.actions-header {
+  background: var(--gold-lt);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f0e5c8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actions-header-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.actions-header-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8a6a1a;
+}
+
+.action-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.action-item:last-child { border-bottom: none; }
+
+.action-num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--forest);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.action-text {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* CTA final */
+.cta-final {
+  background: linear-gradient(135deg, var(--forest) 0%, #1a3d2e 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cta-final-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.cta-final-sub {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+.cta-btn-primary {
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  background: var(--mint);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.75rem;
+  width: auto;
+  white-space: normal;
+  box-sizing: border-box;
+}
+
+.cta-btn-primary:hover { background: #1f8a4c; transform: translateY(-1px); }
+
+.cta-restart {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  margin: 0 auto;
+}
+
+.cta-restart:hover { color: rgba(255,255,255,0.6); }
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 0 1rem 1rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+footer strong { color: var(--emerald); }
+
+@media (max-width: 500px) {
+  .indicateurs-grid { grid-template-columns: 1fr; }
+  .q-text { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- QUIZ -->
+<div class="quiz-wrap">
+  <div id="quiz-section">
+
+    <!-- Progress -->
+    <div class="progress-section">
+      <div class="progress-top">
+        <span class="progress-label">Progression</span>
+        <span class="progress-fraction" id="q-fraction">1 / 8</span>
+      </div>
+      <div class="progress-dots" id="progress-dots"></div>
+    </div>
+
+    <!-- Card -->
+    <div class="q-card" id="q-card">
+      <div class="q-header">
+        <div class="q-num-circle">
+          <span class="q-num-text" id="q-num">1</span>
+        </div>
+        <div class="q-meta">
+          <div class="q-indicateur" id="q-indicateur">Point de contrôle</div>
+          <div class="q-domaine" id="q-domaine">—</div>
+        </div>
+      </div>
+      <div class="q-body">
+        <div class="q-text" id="q-text">Chargement…</div>
+        <div class="q-options" id="q-options"></div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="nav-row">
+      <button class="btn-back" id="btn-back" onclick="prevQ()" disabled title="Question précédente">←</button>
+      <button class="btn-next" id="btn-next" onclick="nextQ()" disabled>
+        <span id="btn-label">Question suivante</span>
+        <span>→</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- RÉSULTATS -->
+  <div id="results">
+
+    <div class="score-hero">
+      <div class="score-hero-label">Votre niveau de préparation à Qualiopi</div>
+      <div class="score-ring">
+        <div class="score-num" id="res-num">0</div>
+        <div class="score-denom">score global / 24</div>
+      </div>
+      <div class="niveau-chips" id="niveau-chips">
+        <div class="niveau-chip" data-min="0" data-max="6">À structurer</div>
+        <div class="niveau-chip" data-min="7" data-max="12">En construction</div>
+        <div class="niveau-chip" data-min="13" data-max="18">Bien engagé</div>
+        <div class="niveau-chip" data-min="19" data-max="24">Base solide</div>
+      </div>
+      <div class="score-titre" id="res-titre">—</div>
+      <div class="score-desc" id="res-desc">—</div>
+      <div class="score-prudence" id="score-prudence"></div>
+    </div>
+
+    <!-- Indicateurs détail -->
+    <div class="indicateurs-grid" id="ind-grid"></div>
+
+    <!-- Actions -->
+    <div class="actions-block" id="actions-block">
+      <div class="actions-header">
+        <div class="actions-header-icon">⚡</div>
+        <div class="actions-header-title">Vos priorités de travail</div>
+      </div>
+      <div id="actions-list"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-final">
+      <div class="cta-final-title">Allez plus loin dans votre préparation</div>
+      <div class="cta-final-sub">Ce pré-diagnostic vous donne un premier niveau de lecture. Si vous souhaitez aller plus loin, je peux vous aider à analyser votre situation, identifier les écarts prioritaires et structurer votre préparation à la certification ou au renouvellement Qualiopi.</div>
+      <a class="cta-btn-primary" href="https://certification-formation.fr/contact/" onclick="handleCtaClick(event, this.href)">📩 Obtenir une analyse de ma situation</a>
+      <button class="cta-restart" onclick="restart()">↺ Recommencer le diagnostic</button>
+    </div>
+
+  </div>
+
+  <footer><a href="https://certification-formation.fr" style="color: var(--emerald); text-decoration: none;">certification-formation.fr</a> · Accompagnement Qualiopi pour formateurs indépendants</footer>
+</div>
+
+<script>
+const QS = [
+  { num: "1", ind: "Point de contrôle 1", domaine: "Programme de formation",
+    text: "Disposez-vous d'un programme de formation écrit pour chaque action de formation proposée ?",
+    opts: [
+      { l: "Aucun programme formalisé", s: 0 },
+      { l: "Programme existant mais incomplet ou non structuré", s: 1 },
+      { l: "Programme avec objectifs, durée et contenu décrits", s: 2 },
+      { l: "Programme complet : objectifs, prérequis, contenu, méthodes, évaluation", s: 3 }
+    ]
+  },
+  { num: "2", ind: "Point de contrôle 2", domaine: "Positionnement des stagiaires",
+    text: "Comment évaluez-vous le niveau initial de vos stagiaires avant la formation ?",
+    opts: [
+      { l: "Nous n'évaluons pas le niveau initial", s: 0 },
+      { l: "Un entretien informel, sans trace écrite", s: 1 },
+      { l: "Un questionnaire ou test de positionnement formalisé", s: 2 },
+      { l: "Positionnement formalisé avec adaptation du programme", s: 3 }
+    ]
+  },
+  { num: "3", ind: "Point de contrôle 3", domaine: "Information des publics",
+    text: "Les informations sur vos formations (tarifs, délais, accessibilité handicap…) sont-elles accessibles avant l'entrée en formation ?",
+    opts: [
+      { l: "Communiquées uniquement sur demande", s: 0 },
+      { l: "Partiellement disponibles sur notre site ou supports", s: 1 },
+      { l: "Disponibles en ligne et dans nos documents", s: 2 },
+      { l: "Complètes, accessibles, mises à jour régulièrement", s: 3 }
+    ]
+  },
+  { num: "4", ind: "Point de contrôle 4", domaine: "Évaluation des acquis",
+    text: "Évaluez-vous les acquis de vos stagiaires pendant et à l'issue de la formation ?",
+    opts: [
+      { l: "Aucune évaluation formalisée", s: 0 },
+      { l: "Évaluation orale en fin de formation, sans trace", s: 1 },
+      { l: "Évaluations écrites avec traces conservées", s: 2 },
+      { l: "Évaluations à chaud et à froid, résultats exploités", s: 3 }
+    ]
+  },
+  { num: "5", ind: "Point de contrôle 5", domaine: "Satisfaction des stagiaires",
+    text: "Recueillez-vous la satisfaction de vos stagiaires de manière formalisée ?",
+    opts: [
+      { l: "Aucun recueil de satisfaction", s: 0 },
+      { l: "Retours informels à l'oral, sans trace", s: 1 },
+      { l: "Questionnaire de satisfaction écrit conservé", s: 2 },
+      { l: "Questionnaire exploité, intégré à l'amélioration continue", s: 3 }
+    ]
+  },
+  { num: "6", ind: "Point de contrôle 6", domaine: "Moyens pédagogiques",
+    text: "Vos moyens pédagogiques, techniques et d'encadrement sont-ils décrits et adaptés à chaque formation ?",
+    opts: [
+      { l: "Non documentés", s: 0 },
+      { l: "Partiellement décrits dans certains programmes", s: 1 },
+      { l: "Décrits et communiqués aux stagiaires", s: 2 },
+      { l: "Décrits, adaptés à chaque formation, régulièrement mis à jour", s: 3 }
+    ]
+  },
+  { num: "7", ind: "Point de contrôle 7", domaine: "Gestion des réclamations",
+    text: "Disposez-vous d'une procédure formalisée pour gérer les réclamations et les abandons ?",
+    opts: [
+      { l: "Gestion au cas par cas, sans procédure", s: 0 },
+      { l: "Procédure informelle connue en interne", s: 1 },
+      { l: "Procédure écrite, non communiquée aux stagiaires", s: 2 },
+      { l: "Procédure écrite, communiquée, avec suivi des réclamations", s: 3 }
+    ]
+  },
+  { num: "8", ind: "Point de contrôle 8", domaine: "Amélioration continue",
+    text: "Mettez-vous en place des actions d'amélioration suite à vos évaluations et résultats ?",
+    opts: [
+      { l: "Aucune démarche structurée d'amélioration", s: 0 },
+      { l: "Actions occasionnelles, sans formalisation", s: 1 },
+      { l: "Actions identifiées et mises en place", s: 2 },
+      { l: "Plan d'amélioration continue documenté et suivi régulièrement", s: 3 }
+    ]
+  }
+];
+
+const ACTIONS_MAP = {
+  0: "Formaliser un programme de formation complet avec objectifs, prérequis, contenu, méthodes et modalités d'évaluation.",
+  1: "Mettre en place un questionnaire de positionnement initial pour chaque stagiaire avant la formation.",
+  2: "Créer une page d'information publique complète sur vos formations : tarifs, délais, modalités d'accessibilité.",
+  3: "Instaurer des évaluations à chaud et à froid avec conservation des traces et exploitation des résultats.",
+  4: "Déployer un questionnaire de satisfaction exploité et intégré à votre démarche d'amélioration.",
+  5: "Documenter vos moyens pédagogiques et techniques dans chaque programme de formation.",
+  6: "Rédiger et communiquer une procédure de gestion des réclamations et des abandons avec suivi.",
+  7: "Mettre en place un plan d'amélioration continue documenté avec suivi des actions engagées."
+};
+
+const SCORE_LABELS = ["À structurer", "En cours", "Bien engagé", "Solide"];
+
+let cur = 0;
+let answers = new Array(QS.length).fill(null);
+
+// ── Tracking GA4 ──────────────────────────────────────────
+function trackEvent(name, params) {
+  if (typeof gtag === 'function') {
+    gtag('event', name, params);
+  }
+}
+
+function handleCtaClick(event, url) {
+  event.preventDefault();
+  const niveau = window._lastNiveau || 'inconnu';
+  const score  = window._lastScore  || 0;
+  trackEvent('cta_click', {
+    quiz_name: 'prediagnostic_qualiopi',
+    cta_text:  'obtenir_analyse',
+    niveau,
+    score
+  });
+  setTimeout(() => {
+    window.location.href = url + '?source=diagnostic&niveau=' + encodeURIComponent(niveau) + '&score=' + score;
+  }, 150);
+}
+
+function initDots() {
+  const el = document.getElementById('progress-dots');
+  el.innerHTML = '';
+  QS.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'p-dot';
+    el.appendChild(d);
+  });
+}
+
+function updateDots() {
+  const dots = document.querySelectorAll('.p-dot');
+  dots.forEach((d, i) => {
+    d.className = 'p-dot' + (i < cur ? ' done' : i === cur ? ' current' : '');
+  });
+}
+
+function render() {
+  const q = QS[cur];
+  document.getElementById('q-num').textContent = q.num;
+  document.getElementById('q-indicateur').textContent = q.ind;
+  document.getElementById('q-domaine').textContent = q.domaine;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-fraction').textContent = (cur + 1) + ' / ' + QS.length;
+
+  const opts = document.getElementById('q-options');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'q-opt' + (answers[cur] === i ? ' selected' : '');
+    div.innerHTML = `<div class="q-opt-radio"></div><div class="q-opt-label">${opt.l}</div><div class="q-opt-score">${opt.s}</div>`;
+    div.onclick = () => select(i);
+    opts.appendChild(div);
+  });
+
+  document.getElementById('btn-back').disabled = cur === 0;
+  document.getElementById('btn-next').disabled = answers[cur] === null;
+  document.getElementById('btn-label').textContent = cur === QS.length - 1 ? 'Découvrir mon résultat' : 'Question suivante';
+
+  updateDots();
+
+  // Animate
+  const card = document.getElementById('q-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'slideUp 0.35s cubic-bezier(0.16,1,0.3,1)';
+}
+
+function select(i) {
+  if (answers[cur] === null && cur === 0) {
+    trackEvent('quiz_start', { quiz_name: 'prediagnostic_qualiopi' });
+  }
+  answers[cur] = i;
+  document.querySelectorAll('.q-opt').forEach((el, idx) => el.classList.toggle('selected', idx === i));
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQ() {
+  if (answers[cur] === null) return;
+  if (cur < QS.length - 1) {
+    trackEvent('quiz_step', { quiz_name: 'prediagnostic_qualiopi', step_number: cur + 2 });
+    cur++; render();
+  } else showResults();
+}
+
+function prevQ() {
+  if (cur > 0) { cur--; render(); }
+}
+
+function showResults() {
+  document.getElementById('quiz-section').style.display = 'none';
+  const res = document.getElementById('results');
+  res.style.display = 'block';
+  res.classList.add('visible');
+
+  const total = answers.reduce((s, a, i) => s + (a !== null ? QS[i].opts[a].s : 0), 0);
+
+  const niveauKey = total <= 6 ? 'a_structurer' : total <= 12 ? 'en_construction' : total <= 18 ? 'bien_engage' : 'base_solide';
+  window._lastNiveau = niveauKey;
+  window._lastScore  = total;
+
+  trackEvent('quiz_complete', {
+    quiz_name: 'prediagnostic_qualiopi',
+    score: total,
+    niveau: niveauKey
+  });
+
+  // Score animé
+  const numEl = document.getElementById('res-num');
+  let n = 0;
+  const interval = setInterval(() => {
+    n = Math.min(n + 1, total);
+    numEl.textContent = n;
+    if (n >= total) clearInterval(interval);
+  }, 60);
+
+  // Niveau chips
+  document.querySelectorAll('.niveau-chip').forEach(chip => {
+    const min = parseInt(chip.dataset.min);
+    const max = parseInt(chip.dataset.max);
+    chip.classList.toggle('active', total >= min && total <= max);
+  });
+
+  // Titre et desc
+  let titre, desc;
+  if (total <= 6) {
+    titre = "Niveau à structurer — Les fondamentaux restent à formaliser";
+    desc = "Votre organisation repose encore sur des pratiques peu formalisées. Avant d'envisager sereinement un audit Qualiopi, il est nécessaire de structurer les bases de votre démarche qualité, de clarifier vos documents et d'assurer une meilleure traçabilité.";
+  } else if (total <= 12) {
+    titre = "Niveau en construction — Une démarche amorcée, mais encore fragile";
+    desc = "Vous avez déjà mis en place certains éléments utiles, mais plusieurs points essentiels restent insuffisamment formalisés. Un travail de consolidation documentaire et méthodologique est recommandé avant un audit.";
+  } else if (total <= 18) {
+    titre = "Niveau bien engagé — Une base sérieuse à renforcer";
+    desc = "Votre démarche qualité semble déjà bien avancée. Quelques ajustements ciblés peuvent toutefois être nécessaires pour sécuriser votre préparation, renforcer certaines preuves et aborder l'audit avec davantage de sérénité.";
+  } else {
+    titre = "Niveau solide — Une préparation déjà bien structurée";
+    desc = "Vous disposez manifestement de bonnes bases en matière d'organisation qualité. Ce résultat est encourageant, mais il convient de vérifier la cohérence de vos documents, de vos procédures et de vos preuves avant toute échéance d'audit.";
+  }
+  document.getElementById('res-titre').textContent = titre;
+  document.getElementById('res-desc').textContent = desc;
+  document.getElementById('score-prudence').textContent = "Ce pré-diagnostic constitue un premier repère. Il ne remplace pas une analyse complète de vos documents, de vos procédures et de vos pratiques au regard du référentiel Qualiopi.";
+
+  // Indicateurs grid
+  const grid = document.getElementById('ind-grid');
+  grid.innerHTML = '';
+  answers.forEach((a, i) => {
+    const score = a !== null ? QS[i].opts[a].s : 0;
+    const card = document.createElement('div');
+    card.className = 'ind-card score-' + score;
+    card.innerHTML = `
+      <div class="ind-nom">${QS[i].domaine}</div>
+      <div class="ind-bar-track"><div class="ind-bar-fill"></div></div>
+      <div class="ind-score-label">${SCORE_LABELS[score]} (${score}/3)</div>`;
+    grid.appendChild(card);
+  });
+
+  // Actions
+  const actionsList = document.getElementById('actions-list');
+  actionsList.innerHTML = '';
+  const weakOnes = answers
+    .map((a, i) => ({ idx: i, score: a !== null ? QS[i].opts[a].s : 0 }))
+    .filter(x => x.score <= 1)
+    .slice(0, 4);
+
+  if (weakOnes.length === 0) {
+    actionsList.innerHTML = '<div class="action-item"><div class="action-num">✓</div><div class="action-text">Votre base paraît solide sur les points évalués. L\'enjeu est désormais de maintenir la cohérence de vos pratiques, de conserver des preuves exploitables et de vérifier l\'ensemble de votre dossier avant audit.</div></div>';
+  } else {
+    const intro = document.createElement('div');
+    intro.style.cssText = 'padding:0.75rem 1.5rem;font-size:0.82rem;color:var(--muted);font-style:italic;border-bottom:1px solid var(--border);';
+    intro.textContent = 'Voici les premières actions à engager pour renforcer votre préparation et sécuriser votre démarche qualité.';
+    actionsList.appendChild(intro);
+    weakOnes.forEach((x, i) => {
+      const div = document.createElement('div');
+      div.className = 'action-item';
+      div.innerHTML = `<div class="action-num">${i + 1}</div><div class="action-text">${ACTIONS_MAP[x.idx]}</div>`;
+      actionsList.appendChild(div);
+    });
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  trackEvent('quiz_restart', { quiz_name: 'prediagnostic_qualiopi' });
+  cur = 0;
+  answers = new Array(QS.length).fill(null);
+  document.getElementById('res-num').textContent = '0';
+  document.getElementById('res-titre').textContent = '—';
+  document.getElementById('res-desc').textContent = '—';
+  document.getElementById('score-prudence').textContent = '';
+  document.getElementById('ind-grid').innerHTML = '';
+  document.getElementById('actions-list').innerHTML = '';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('quiz-section').style.display = 'block';
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+initDots();
+render();
+</script>
+</body>
+</html>
