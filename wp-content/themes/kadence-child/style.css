@@ -15,12 +15,12 @@ Text Domain:    kadence-child
    1. VARIABLES — palette QualiManager
    ============================================================================ */
 :root {
-  --cf-primary:    #2ecc71;
-  --cf-primary-dk: #27ae60;
-  --cf-primary-lt: #e8f8ef;
+  --cf-primary:    #1b7a43;
+  --cf-primary-dk: #145a32;
+  --cf-primary-lt: #e8f5e9;
   --cf-dark:       #1a1a2e;
   --cf-text:       #1a1a2e;
-  --cf-text-mute:  #6b7280;
+  --cf-text-mute:  #5d6470;
   --cf-bg:         #ffffff;
   --cf-bg-alt:     #f8f9fa;
   --cf-border:     #e5e7eb;
